@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/01/14/hello-world/</url>
+    <content><![CDATA[<p>今天搞了半天，搞了个博客页面，用它来记录一些自己的东西。</p>
+<h3 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h3><p>1: <a href="http://theme-next.iissnan.com/" target="_blank" rel="noopener">主题</a><br>2: <a href="https://blog.csdn.net/qq_36759224/article/details/82121420" target="_blank" rel="noopener">设置教程1</a><br>3: <a href="https://blog.csdn.net/nightmare_dimple/article/details/86661502" target="_blank" rel="noopener">设置教程2</a><br>4: <a href="https://www.cnblogs.com/zhangxiaochn/p/Hexo_Theme_Next.html" target="_blank" rel="noopener">设置教程3</a></p>
+<h3 id="本地启动"><a href="#本地启动" class="headerlink" title="本地启动"></a>本地启动</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo clean</span><br><span class="line">$ hexo generate</span><br><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<h3 id="推送github"><a href="#推送github" class="headerlink" title="推送github"></a>推送github</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo g -d</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>其他</category>
+      </categories>
+  </entry>
+</search>
