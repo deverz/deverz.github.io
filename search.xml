@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Redis数据结构之跳跃表</title>
+    <url>/2020/06/30/redis-skiplist/</url>
+    <content><![CDATA[<blockquote>
+<p>跳跃表(skiplist)是一种有序数据结构，它通过在每个节点中维持多个指向其他节点的指针，从而达到快速访问节点的目的。-《Redis设计与实现》</p>
+</blockquote>
+<h3 id="一、从链表说起"><a href="#一、从链表说起" class="headerlink" title="一、从链表说起"></a>一、从链表说起</h3><p><img src="list-1.png" alt="1"><br>如上图所示，为一个有序单链表，当要查询某个节点数据时，只能从头到尾遍历获取，查询效率不高。</p>
+<p>为了解决单链表的查询效率问题，我们考虑通过在单链表的基础上增加索引的方式来提高查询效率。<br><img src="list-2.png" alt="2"><br>如上图所示，在单链表之上创建索引后，当要查询某个节点时，就可以通过从上而下，从左到右的索引去搜索，有些类似于二分查找。<br>例如查询节点9的信息时，查询路径为：<br><img src="list-3.png" alt="3"></p>
+<p>上图我们的单链表索引只有2层，当数据量巨大时，增加多层索引，就可以极大提升效率，而这种在单链表增加多层索引的链表结构就是跳跃表。</p>
+<h3 id="二、Redis的跳跃表"><a href="#二、Redis的跳跃表" class="headerlink" title="二、Redis的跳跃表"></a>二、Redis的跳跃表</h3><p>在大部分情况下，跳跃表的效率可以和平衡树相媲美，且跳跃表的实现比平衡树更为简单。<br>Redis使用跳跃表作为有序集合键的底层实现之一，如果一个有序集合包含的元素数量比较多，又或者有序集合中元素的成员是比较长的字符串时，Redis就会使用跳跃表来作为有序集合键的底层实现。<br>Redis的跳跃表由zskiplistNode和zskiplist两个结构定义，其中zskiplistNode结构用于表示跳跃表节点，zskiplist结构用于保存跳跃表节点的相关信息。<br><img src="redis-skiplist.jpg" alt="4"><br>如上图，最左侧为zskiplist结构，包含以下属性：<br>1、header：指向跳跃表头节点<br>2、tail：指向跳跃表尾节点<br>3、level：记录节点做大层高（不包含头节点）<br>4、length：存储跳跃表节点数（不包含头节点）<br>在zskiplist结构右边的4个节点则为zskiplistNode结构，包含以下属性<br>1、层level：图示的L1，L2等标记各个层，层上带前进指针和跨度，前进指针用于访问其他节点，跨度标记距离其他节点的距离。<br>2、后退指针BW：指向当前节点的前一个相邻接点，用于倒序遍历使用<br>3、分值score：图示的1.0，2.0等数值即节点保存的分值，在跳跃表中，节点按各自所保存的分值从小到大排序<br>4、成员对象obj：图示的o1，o2等表示节点所保存的成员对象<br>需要注意的是，表头节点和其他节点的构造是完全一样的，但是表头节点的后退指针，分值和成员对象不会使用。</p>
+<h3 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h3><p>在Redis中，跳跃表相关的重点有：<br>1、跳跃表是有序集合的底层实现之一<br>2、Redis的跳跃表实现由zskiplist和zskiplistNode两个结构组成，其中zskiplist用于保存跳跃表信息（表头节点，表尾节点，长度），而zskiplistNode则用于表示跳跃表节点<br>3、每个跳跃表都是1-32之间的随机数<br>4、在同一个跳跃表中，多个节点可以包含同一个分值，但是每个节点的obj是唯一的<br>5、跳跃表中的节点按照分值大小进行排序，分值相同时，按obj大小排序</p>
+<p>最后，附上用PHP代码实现的单链表和跳跃表的代码：<br>单链表PHP代码实现：<a href="https://gitee.com/deverz/dev_code/blob/master/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/SingleList.php" target="_blank" rel="noopener">gitee地址</a><br>跳跃表PHP代码实现：<a href="https://gitee.com/deverz/dev_code/blob/master/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/SkipList.php" target="_blank" rel="noopener">gitee地址</a></p>
+]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+  </entry>
+  <entry>
     <title>MySQL中慢sql问题排查记录</title>
     <url>/2020/06/08/mysql-slow-sql/</url>
     <content><![CDATA[<p>最近线上报警提示一个update操作出现慢sql[2秒左右]，所以对该sql进行分析解决问题：<br>sql语句为：<code>UPDATE test_order SET nstate = 5 WHERE (nstate = 2 and stime &lt; 1589355360)</code></p>
