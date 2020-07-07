@@ -159,7 +159,12 @@
   <entry>
     <title>MySQL中join关联查询是如何执行的？</title>
     <url>/2020/02/29/mysql-join/</url>
-    <content><![CDATA[<p>在上一篇文章&lt;MySQL中如何更好的使用Limit？&gt;中，我们最后写到limit优化的方式之一就是用到了join关联查询，那么多表的关联查询是如何执行的呢？<br>带着这个疑问，我们一起探究下join关联查询的执行步骤！</p>
+    <content><![CDATA[<blockquote>
+<ul>
+<li>感谢#xiyang 同学对文章中错误的指正。</li>
+</ul>
+</blockquote>
+<p>在上一篇文章&lt;MySQL中如何更好的使用Limit？&gt;中，我们最后写到limit优化的方式之一就是用到了join关联查询，那么多表的关联查询是如何执行的呢？<br>带着这个疑问，我们一起探究下join关联查询的执行步骤！</p>
 <h3 id="一、实验环境"><a href="#一、实验环境" class="headerlink" title="一、实验环境"></a>一、实验环境</h3><ul>
 <li><p>1、MySQL版本</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysql&gt; select version();</span><br><span class="line">+<span class="comment">-----------+</span></span><br><span class="line">| version() |</span><br><span class="line">+<span class="comment">-----------+</span></span><br><span class="line">| 8.0.18    |</span><br><span class="line">+<span class="comment">-----------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.01</span> sec)</span><br></pre></td></tr></table></figure>
